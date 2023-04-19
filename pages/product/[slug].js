@@ -1,22 +1,24 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { urlFor, client } from '@/lib/client';
 import { AiOutlineMinus, AiOutlinePlus, AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import Product from '@/components/Product';
+import {useStateContext} from '@/context/StateContext';
 
 const ProductDetails = ({ product, products }) => {
   const { image, name, details, price } = product;
   const [index, setIndex] = useState(0);
+  const {decQty, incQty, qty} = useStateContext();
   return (
     <div>
       <div className='product-detail-container'>
         <div>
           <div className='image-container'>
-            <img src={urlFor(image && image[index])} className='product-detail-image'/>
+            <img src={urlFor(image && image[index])} className='product-detail-image' />
           </div>
           <div className='small-images-container'>
             {image?.map((item, i) => (
-              <img src={urlFor(item)} className={i === index ? 'small-image selected-image' : 'small-image'} 
-              onMouseEnter={() => setIndex(i)} />
+              <img src={urlFor(item)} className={i === index ? 'small-image selected-image' : 'small-image'}
+                onMouseEnter={() => setIndex(i)} />
             ))}
           </div>
           <div className='product-detail-desc'>
@@ -38,13 +40,13 @@ const ProductDetails = ({ product, products }) => {
           <div className='quantity'>
             <h3>Quantity:</h3>
             <p className='quantity-desc'>
-              <span className='minus' onClick=''>
+              <span className='minus' onClick={decQty}>
                 <AiOutlineMinus />
               </span>
               <span className='num' onClick=''>
-                0
+                {qty}
               </span>
-              <span className='plus' onClick=''>
+              <span className='plus' onClick={incQty}>
                 <AiOutlinePlus />
               </span>
             </p>
